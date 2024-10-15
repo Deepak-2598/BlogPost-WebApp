@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Backend for Blog Post Web App",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deepak-2598/BlogPost-WebApp.git"
+  },
+  "author": "DeepakS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deepak-2598/BlogPost-WebApp/issues"
+  },
+  "homepage": "https://github.com/Deepak-2598/BlogPost-WebApp#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7"
+  }
+}
