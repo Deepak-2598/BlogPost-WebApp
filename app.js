@@ -1,13 +1,11 @@
 const express = require("express");
-const mongoose =  require("mongoose");
-const morgan =  require("morgan");
-const cors = require("cors");
 const { MongoClient } = require('mongodb');
 require("dotenv").config();
+const cors = require("cors");
 
 const app = express();
 app.use(cors({
-    origin: 'https://blogpostwebapp-fm2e.onrender.com/'
+    origin: 'https://blogpostwebapp-fm2e.onrender.com'
 }));
 app.use(express.json());
 
@@ -16,28 +14,31 @@ const dbName = "blogpostdb";
 const collectionName = "blog_post";
 
 const client = new MongoClient(uri);
+let collection;
+
+(async () => {
+    try {
+        await client.connect();
+        console.log("Connected to the database");
+        const database = client.db(dbName);
+        collection = database.collection(collectionName);
+    } catch (error) {
+        console.error("Failed to connect to the database:", error.message);
+    }
+})();
 
 app.get('/api/data', async (req, res) => {
     try {
-        await client.connect();
-        const database = client.db(dbName);
-        const collection = database.collection(collectionName);
         const data = await collection.find({}).toArray();
         res.json(data);
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.message);
         res.status(500).send("Internal Server Error");
-    } finally {
-        await client.close();
     }
 });
 
 app.post('/api/signup', async (req, res) => {
     try {
-        await client.connect();
-        const database = client.db(dbName);
-        const collection = database.collection(collectionName);
-        
         const existingUser = await collection.findOne({ username: req.body.username });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
@@ -48,19 +49,13 @@ app.post('/api/signup', async (req, res) => {
             password: req.body.password,
             email: req.body.email
         };
-        console.log(newUser,'newUser')
-        
         await collection.insertOne(newUser);
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
-        console.error("Error signing up:", error);
+        console.error("Error signing up:", error.message);
         res.status(500).send("Internal Server Error");
-    } finally {
-        await client.close();
-        console.log('finally')
     }
 });
-
 
 const port = process.env.PORT;
 
