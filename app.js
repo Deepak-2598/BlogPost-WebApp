@@ -12,7 +12,6 @@ app.use(cors({
 app.use(express.json());
 
 const uri = process.env.URI;
-console.log(uri)
 const dbName = "blogpostdb";
 const collectionName = "blog_post";
 
