@@ -7,11 +7,12 @@ require("dotenv").config();
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'https://blogpostwebapp-fm2e.onrender.com/'
 }));
 app.use(express.json());
 
 const uri = process.env.URI;
+console.log(uri)
 const dbName = "blogpostdb";
 const collectionName = "blog_post";
 
